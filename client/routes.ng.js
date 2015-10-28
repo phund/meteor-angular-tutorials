@@ -16,14 +16,7 @@ angular.module('socially').config(function($urlRouterProvider, $stateProvider, $
     .state('parties', {
       url: '/parties',
       templateUrl: 'client/parties/views/parties-list.ng.html',
-      controller: 'PartiesListCtrl',
-      resolve: {
-        'subscribe': [
-          '$meteor', function($meteor) {
-            return $meteor.subscribe('parties');
-          }
-        ]
-      }
+      controller: 'PartiesListCtrl'
     })
     .state('partyDetails', {
       url: '/parties/:partyId',
