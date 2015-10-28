@@ -1,5 +1,24 @@
 if (Meteor.isClient) {
-  angular.module('socially',['angular-meteor']);
+  angular.module('socially',['angular-meteor', 'ui.router']);
+
+  angular.module('socially').config(function($urlRouterProvider, $stateProvider, $locationProvider){
+ 
+    $locationProvider.html5Mode(true);
+
+    $stateProvider
+      .state('parties', {
+        url: '/parties',
+        templateUrl: 'parties-list.ng.html',
+        controller: 'PartiesListCtrl'
+      })
+      .state('partyDetails', {
+        url: '/parties/:partyId',
+        templateUrl: 'party-details.ng.html',
+        controller: 'PartyDetailsCtrl'
+      });
+
+    $urlRouterProvider.otherwise("/parties");
+  });
 
   angular.module('socially').controller('PartiesListCtrl', ['$scope', '$meteor', function($scope, $meteor){
     $scope.parties = $meteor.collection(Parties);
@@ -13,4 +32,9 @@ if (Meteor.isClient) {
     };
 
   }])
+
+  
+  angular.module("socially").controller("PartyDetailsCtrl", function($scope, $stateParams) {
+    $scope.partyId = $stateParams.partyId;
+  });
 }
