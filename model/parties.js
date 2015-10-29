@@ -11,7 +11,7 @@ Parties.allow({
     return userId && party.owner === userId;
   }
 });
- 
+
 Meteor.methods({
   invite: function (partyId, userId) {
     check(partyId, String);
@@ -24,13 +24,13 @@ Meteor.methods({
     if (party.public)
       throw new Meteor.Error(400,
         "That party is public. No need to invite people.");
- 
+
     if (userId !== party.owner && ! _.contains(party.invited, userId)) {
       Parties.update(partyId, { $addToSet: { invited: userId } });
- 
+
       var from = contactEmail(Meteor.users.findOne(this.userId));
       var to = contactEmail(Meteor.users.findOne(userId));
- 
+
       if (Meteor.isServer && to) {
         // This code only runs on the server. If you didn't want clients
         // to be able to see it, you could move it to a separate file.
@@ -60,11 +60,11 @@ Meteor.methods({
       !_.contains(party.invited, this.userId))
     // private, but let's not tell this to the user
       throw new Meteor.Error(403, "No such party");
- 
+
     var rsvpIndex = _.indexOf(_.pluck(party.rsvps, 'user'), this.userId);
     if (rsvpIndex !== -1) {
       // update existing rsvp entry
- 
+
       if (Meteor.isServer) {
         // update the appropriate rsvp entry with $
         Parties.update(
@@ -87,7 +87,7 @@ Meteor.methods({
     }
   }
 });
- 
+
 var contactEmail = function (user) {
   if (user.emails && user.emails.length)
     return user.emails[0].address;

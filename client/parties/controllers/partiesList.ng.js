@@ -1,5 +1,4 @@
-angular.module('socially').controller('PartiesListCtrl', function($scope, $meteor, $rootScope, $state){
-
+angular.module("socially").controller("PartiesListCtrl", function ($scope, $meteor, $rootScope, $state) {
   $scope.page = 1;
   $scope.perPage = 3;
   $scope.sort = {name: 1};
@@ -7,37 +6,36 @@ angular.module('socially').controller('PartiesListCtrl', function($scope, $meteo
 
   $scope.users = $meteor.collection(Meteor.users, false).subscribe('users');
 
-  $scope.parties = $meteor.collection(function(){
+  $scope.parties = $meteor.collection(function() {
     return Parties.find({}, {
       sort : $scope.getReactively('sort')
     });
-  })
-  
+  });
+
   $meteor.autorun($scope, function() {
-    $meteor.subscribe('parties',{
-        limit: parseInt($scope.getReactively('perPage')),
-        skip: (parseInt($scope.getReactively('page')) - 1) * parseInt($scope.getReactively('perPage')),
-        sort: $scope.getReactively('sort')
-      }, $scope.getReactively('search')).then(function(){
+    $meteor.subscribe('parties', {
+      limit: parseInt($scope.getReactively('perPage')),
+      skip: (parseInt($scope.getReactively('page')) - 1) * parseInt($scope.getReactively('perPage')),
+      sort: $scope.getReactively('sort')
+    }, $scope.getReactively('search')).then(function(){
       $scope.partiesCount = $meteor.object(Counts ,'numberOfParties', false);
+
+      $scope.parties.forEach( function (party) {
+        party.onClicked = function () {
+          $state.go('partyDetails', {partyId: party._id});
+        };
+      });
+
+      $scope.map = {
+        center: {
+          latitude: 45,
+          longitude: -73
+        },
+        zoom: 8
+      };
+
     });
   });
-
-
-  $scope.parties.forEach( function (party) {
-    party.onClicked = function () {
-      $state.go('partyDetails', {partyId: party._id});
-    };
-  });
-
-  $scope.map = {
-    center: {
-      latitude: 45,
-      longitude: -73
-    },
-    zoom: 8
-  };
- 
 
   $scope.remove = function(party){
     $scope.parties.remove(party);
@@ -50,7 +48,6 @@ angular.module('socially').controller('PartiesListCtrl', function($scope, $meteo
   $scope.pageChanged = function(newPage) {
     $scope.page = newPage;
   };
-
 
   $scope.$watch('orderProperty', function(){
     if ($scope.orderProperty)
@@ -76,7 +73,6 @@ angular.module('socially').controller('PartiesListCtrl', function($scope, $meteo
  
     return owner;
   };
-
   $scope.rsvp = function(partyId, rsvp){
     $meteor.call('rsvp', partyId, rsvp).then(
       function(data){
