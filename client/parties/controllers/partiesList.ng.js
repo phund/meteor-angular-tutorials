@@ -1,4 +1,4 @@
-angular.module("socially").controller("PartiesListCtrl", function ($scope, $meteor, $rootScope, $state) {
+angular.module("socially").controller("PartiesListCtrl", function ($scope, $meteor, $rootScope, $state, $modal) {
   $scope.page = 1;
   $scope.perPage = 3;
   $scope.sort = {name: 1};
@@ -20,12 +20,12 @@ angular.module("socially").controller("PartiesListCtrl", function ($scope, $mete
     }, $scope.getReactively('search')).then(function(){
       $scope.partiesCount = $meteor.object(Counts ,'numberOfParties', false);
 
-      $scope.parties.forEach( function (party) {
+        $scope.parties.forEach( function (party) {
           party.onClicked = function () {
             $state.go('partyDetails', {partyId: party._id});
           };
         });
- 
+
         var styles1 = [{
           "featureType": "landscape.natural",
           "elementType": "geometry.fill",
@@ -81,20 +81,21 @@ angular.module("socially").controller("PartiesListCtrl", function ($scope, $mete
           "stylers": [{"color": "#46bcec"}, {"visibility": "on"}]
         }];
 
-      $scope.map = {
-        center: {
-          latitude: 45,
-          longitude: -73
-        },
-        options: {
-          styles: styles2,
-          maxZoom: 10
-        },
-        zoom: 8
-      };
 
+        $scope.map = {
+          center: {
+            latitude: 45,
+            longitude: -73
+          },
+          options: {
+            styles: styles2,
+            maxZoom: 10
+          },
+          zoom: 8
+        };
+
+      });
     });
-  });
 
   $scope.remove = function(party){
     $scope.parties.remove(party);
@@ -113,25 +114,6 @@ angular.module("socially").controller("PartiesListCtrl", function ($scope, $mete
       $scope.sort = {name: parseInt($scope.orderProperty)};
   });
 
-
-  $scope.getUserById = function(userId){
-    return Meteor.users.findOne(userId);
-  };
- 
-  $scope.creator = function(party){
-    if (!party)
-      return;
-    var owner = $scope.getUserById(party.owner);
-    if (!owner)
-      return 'nobody';
- 
-    if ($rootScope.currentUser)
-      if ($rootScope.currentUser._id)
-        if (owner._id === $rootScope.currentUser._id)
-          return 'me';
- 
-    return owner;
-  };
   $scope.rsvp = function(partyId, rsvp){
     $meteor.call('rsvp', partyId, rsvp).then(
       function(data){
@@ -150,7 +132,25 @@ angular.module("socially").controller("PartiesListCtrl", function ($scope, $mete
     });
   };
 
+  $scope.getUserById = function(userId){
+    return Meteor.users.findOne(userId);
+  };
 
+  $scope.creator = function(party){
+    if (!party)
+      return;
+    var owner = $scope.getUserById(party.owner);
+    if (!owner)
+      return 'nobody';
+
+    if ($rootScope.currentUser)
+      if ($rootScope.currentUser._id)
+        if (owner._id === $rootScope.currentUser._id)
+          return 'me';
+
+    return owner;
+  };
+  
   $scope.openAddNewPartyModal = function () {
     var modalInstance = $modal.open({
       animation: true,
@@ -162,21 +162,20 @@ angular.module("socially").controller("PartiesListCtrl", function ($scope, $mete
         }
       }
     });
- 
+
     modalInstance.result.then(function () {
     }, function () {
     });
   };
- 
+
   $scope.isRSVP = function (rsvp, party) {
     if (!$rootScope.currentUser._id) return false;
     var rsvpIndex = party.myRsvpIndex;
     rsvpIndex = rsvpIndex || _.indexOf(_.pluck(party.rsvps, 'user'), $rootScope.currentUser._id);
- 
+
     if (rsvpIndex !== -1) {
       party.myRsvpIndex = rsvpIndex;
       return party.rsvps[rsvpIndex].rsvp === rsvp;
     }
-  };
-
-})
+  }
+});
