@@ -5,12 +5,23 @@ angular.module("socially").controller("PartiesListCtrl", function ($scope, $mete
   $scope.orderProperty = '1';
 
   $scope.users = $meteor.collection(Meteor.users, false).subscribe('users');
+  $scope.images = $meteor.collectionFS(Images, false, Images).subscribe('images');
 
   $scope.parties = $meteor.collection(function() {
     return Parties.find({}, {
       sort : $scope.getReactively('sort')
     });
   });
+
+  $scope.getMainImage = function(images) {
+    if (images && images.length && images[0] && images[0].id) {
+      var url = $filter('filter')($scope.images, {_id: images[0].id})[0].url();
+ 
+      return {
+        'background-image': 'url("' + url + '")'
+      }
+    }
+  };
 
   $meteor.autorun($scope, function() {
     $meteor.subscribe('parties', {

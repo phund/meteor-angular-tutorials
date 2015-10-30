@@ -8,6 +8,7 @@
         <label>Party Name</label>
         <input ng-model="party.name" ng-disabled="party.owner != $root.currentUser._id" type="text" aria-label="Name">
       </md-input-container>
+      
       <md-input-container>
         <label>Party Description</label>
         <input ng-model="party.description" ng-disabled="party.owner != $root.currentUser._id" type="text" aria-label="Description">
