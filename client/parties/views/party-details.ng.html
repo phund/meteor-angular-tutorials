@@ -15,13 +15,13 @@
       <md-checkbox ng-model="party.public" ng-disabled="party.owner != $root.currentUser._id" aria-label="Public">
         Is public
       </md-checkbox>
- 
+
       <div layout="row" layout-align="left">
         <md-button ng-click="save()">Save</md-button>
         <md-button ng-click="reset()">Reset form</md-button>
         <md-button ng-href="/parties">Cancel</md-button>
       </div>
- 
+
       <md-list ng-show="canInvite()">
         <md-subheader class="md-no-sticky">Users to invite:</md-subheader>
         <md-list-item ng-repeat="user in users | uninvited:party">
@@ -32,7 +32,7 @@
           Everyone are already invited.
         </md-list-item>
       </md-list>
- 
+
       <div class="angular-google-map-container">
         <ui-gmap-google-map center="party.location || map.center" 
                             events="map.events" zoom="map.zoom">
