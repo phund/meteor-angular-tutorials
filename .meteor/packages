@@ -27,6 +27,7 @@ check
 email
 angularui:angular-google-maps
 fourseven:scss
-twbs:bootstrap
 angularui:angular-ui-bootstrap
 less
+angular:angular-material
+planettraining:material-design-icons
