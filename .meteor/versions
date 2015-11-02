@@ -86,6 +86,7 @@ nmccready:angular-simple-logger@0.0.4
 npm-bcrypt@0.7.8_2
 npm-mongo@1.4.39_1
 observe-sequence@1.0.7
+okland:accounts-phone@0.0.21
 ordered-dict@1.0.4
 planettraining:material-design-icons@2.0.0
 promise@0.5.1
@@ -100,6 +101,7 @@ routepolicy@1.0.6
 service-configuration@1.0.5
 session@1.1.1
 sha@1.0.4
+socially-browser@0.0.1
 socially-mobile@0.0.1
 spacebars@1.0.7
 spacebars-compiler@1.0.7
