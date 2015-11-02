@@ -1,4 +1,4 @@
-angular.module('socially',[
+var modulesToLoad = [
   'angular-meteor',
   'ui.router',
   'angularUtils.directives.dirPagination',
@@ -8,10 +8,19 @@ angular.module('socially',[
   'ngImgCrop',
   'xeditable',
   'angular-sortable-view'
-]);
+];
+
+if (Meteor.isCordova) {
+  modulesToLoad = modulesToLoad.concat(['socially.mobile']);
+}
+else {
+  modulesToLoad = modulesToLoad.concat(['socially.browser']);
+}
+
+angular.module('socially', modulesToLoad);
 
 var themeIcons = ['$mdIconProvider' , function ($mdIconProvider) {
- 
+
   $mdIconProvider
     .iconSet("social", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-social.svg")
     .iconSet("action", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-action.svg")
@@ -20,12 +29,11 @@ var themeIcons = ['$mdIconProvider' , function ($mdIconProvider) {
     .iconSet("toggle", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-toggle.svg")
     .iconSet("navigation", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-navigation.svg")
     .iconSet("image", "/packages/planettraining_material-design-icons/bower_components/material-design-icons/sprites/svg-sprite/svg-sprite-image.svg");
- 
+
 }];
- 
+
 angular.module('socially')
   .config(themeIcons);
- 
 
 function onReady() {
   angular.bootstrap(document, ['socially'], {
