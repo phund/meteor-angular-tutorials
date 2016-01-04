@@ -1,10 +1,11 @@
-angular.module('socially').directive('partiesList', function() {
+angular.module('socially').directive('partiesList', function () {
   return {
     restrict: 'E',
     templateUrl: 'client/parties/parties-list/parties-list.html',
     controllerAs: 'partiesList',
-    controller: function($scope, $reactive) {
+    controller: function ($scope, $reactive) {
       $reactive(this).attach($scope);
+
       this.newParty = {};
       this.perPage = 3;
       this.page = 1;
@@ -13,6 +14,15 @@ angular.module('socially').directive('partiesList', function() {
       };
       this.orderProperty = '1';
       this.searchText = '';
+
+      this.helpers({
+        parties: () => {
+          return Parties.find({}, { sort : this.getReactively('sort') });
+        },
+        partiesCount: () => {
+          return Counts.get('numberOfParties');
+        }
+      });
 
       this.subscribe('parties', () => {
         return [
@@ -25,19 +35,6 @@ angular.module('socially').directive('partiesList', function() {
         ]
       });
 
-      this.helpers({
-        parties: () => {
-          return Parties.find({},
-            {
-              sort : this.getReactively('sort')
-            }
-          );
-        },
-        partiesCount: () => {
-          return Counts.get('numberOfParties');
-        }
-      });
-
       this.addParty = () => {
         this.newParty.owner = Meteor.user()._id;
         Parties.insert(this.newParty);
@@ -47,11 +44,10 @@ angular.module('socially').directive('partiesList', function() {
       this.removeParty = (party) => {
         Parties.remove({_id: party._id});
       };
- 
+
       this.pageChanged = (newPage) => {
         this.page = newPage;
       };
-
 
       this.updateSort = () => {
         this.sort = {
