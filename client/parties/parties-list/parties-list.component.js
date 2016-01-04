@@ -6,6 +6,7 @@ angular.module('socially').directive('partiesList', function() {
     controller: function($scope, $reactive) {
       $reactive(this).attach($scope);
       this.newParty = {};
+      this.subscribe('parties');
 
       this.helpers({
         parties: () => {
