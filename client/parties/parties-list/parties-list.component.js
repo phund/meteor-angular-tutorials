@@ -64,6 +64,14 @@ angular.module('socially').directive('partiesList', function () {
         }
       };
 
+      this.map = {
+        center: {
+          latitude: 45,
+          longitude: -73
+        },
+        zoom: 8
+      };
+
       this.subscribe('users');
 
       this.getPartyCreator = (party) => {
