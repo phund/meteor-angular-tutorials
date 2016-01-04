@@ -34,7 +34,18 @@ angular.module('socially').directive('partyDetails', function () {
             console.log('Done!');
           }
         });
-      }
+      };
+
+      this.invite = (user) => {
+        Meteor.call('invite', this.party._id, user._id, (error) => {
+          if (error) {
+            console.log('Oops, unable to invite!');
+          }
+          else {
+            console.log('Invited!');
+          }
+        });
+      };
     }
   }
 });
