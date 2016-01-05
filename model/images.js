@@ -13,7 +13,7 @@ Images = new FS.Collection("images", {
     }
   }
 });
- 
+
 if (Meteor.isServer) {
   Images.allow({
     insert: function (userId) {
@@ -29,7 +29,7 @@ if (Meteor.isServer) {
       return (userId ? true : false);
     }
   });
- 
+
   Meteor.publish('images', function() {
     return Images.find({});
   });

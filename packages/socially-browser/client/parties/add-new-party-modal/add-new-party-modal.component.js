@@ -1,7 +1,7 @@
-angular.module('socially').directive('addNewPartyModal', function () {
+angular.module('socially.browser').directive('addNewPartyModal', function () {
   return {
     restrict: 'E',
-    templateUrl: 'client/parties/add-new-party-modal/add-new-party-modal.html',
+    templateUrl: '/packages/socially-browser/client/parties/add-new-party-modal/add-new-party-modal.html',
     controllerAs: 'addNewPartyModal',
     controller: function ($scope, $stateParams, $reactive, $mdDialog) {
       $reactive(this).attach($scope);
@@ -19,6 +19,7 @@ angular.module('socially').directive('addNewPartyModal', function () {
         this.newParty.images = (this.newParty.images || {}).map((image) => {
           return image._id;
         });
+
         Parties.insert(this.newParty);
         this.newParty = {};
         $mdDialog.hide();
@@ -31,14 +32,14 @@ angular.module('socially').directive('addNewPartyModal', function () {
       this.addImages = (files) => {
         if (files.length > 0) {
           let reader = new FileReader();
- 
+
           reader.onload = (e) => {
             $scope.$apply(() => {
               this.cropImgSrc = e.target.result;
               this.myCroppedImage = '';
             });
           };
- 
+
           reader.readAsDataURL(files[0]);
         }
         else {
@@ -52,7 +53,7 @@ angular.module('socially').directive('addNewPartyModal', function () {
             if (!this.newParty.images) {
               this.newParty.images = [];
             }
- 
+
             this.newParty.images.push(fileObj);
             this.cropImgSrc = undefined;
             this.myCroppedImage = '';
@@ -63,7 +64,6 @@ angular.module('socially').directive('addNewPartyModal', function () {
       this.updateDescription = ($data, image) => {
         Images.update({_id: image._id}, {$set: {'metadata.description': $data}});
       };
-
     }
   }
 });
