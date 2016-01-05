@@ -34,7 +34,6 @@ angular.module('socially')
         template: '<resetpw></resetpw>'
       });
 
-
     $urlRouterProvider.otherwise("/parties");
   })
   .run(function ($rootScope, $state) {
