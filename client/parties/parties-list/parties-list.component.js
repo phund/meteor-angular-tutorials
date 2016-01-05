@@ -1,11 +1,17 @@
 angular.module('socially').directive('partiesList', function () {
   return {
     restrict: 'E',
-    templateUrl: 'client/parties/parties-list/parties-list.html',
+    templateUrl: () => {
+      if (Meteor.isCordova) {
+        return '/packages/socially-mobile/client/parties/parties-list/parties-list.html';
+      }
+ 
+      return '/packages/socially-browser/client/parties/parties-list/parties-list.html';
+    },
     controllerAs: 'partiesList',
     controller: function ($scope, $reactive, $mdDialog, $filter) {
       $reactive(this).attach($scope);
-
+ 
       this.perPage = 3;
       this.page = 1;
       this.sort = {
@@ -13,7 +19,7 @@ angular.module('socially').directive('partiesList', function () {
       };
       this.orderProperty = '1';
       this.searchText = '';
-
+ 
       this.helpers({
         parties: () => {
           return Parties.find({}, { sort : this.getReactively('sort') });
@@ -34,9 +40,9 @@ angular.module('socially').directive('partiesList', function () {
           return Images.find({});
         }
       });
-
+ 
       this.subscribe('images');
-
+ 
       this.map = {
         center: {
           latitude: 45,
@@ -80,9 +86,9 @@ angular.module('socially').directive('partiesList', function () {
         },
         zoom: 8
       };
-
+ 
       this.subscribe('users');
-
+ 
       this.subscribe('parties', () => {
         return [
           {
@@ -93,39 +99,39 @@ angular.module('socially').directive('partiesList', function () {
           this.getReactively('searchText')
         ]
       });
-
+ 
       this.removeParty = (party) => {
         Parties.remove({_id: party._id});
       };
-
+ 
       this.pageChanged = (newPage) => {
         this.page = newPage;
       };
-
+ 
       this.updateSort = () => {
         this.sort = {
           name: parseInt(this.orderProperty)
         }
       };
-
+ 
       this.getPartyCreator = function (party) {
         if (!party) {
           return '';
         }
-
+ 
         let owner = Meteor.users.findOne(party.owner);
-
+ 
         if (!owner) {
           return 'nobody';
         }
-
+ 
         if (Meteor.userId() !== null && owner._id === Meteor.userId()) {
           return 'me';
         }
-
+ 
         return owner;
       };
-
+ 
       this.rsvp = (partyId, rsvp) => {
         Meteor.call('rsvp', partyId, rsvp, (error) => {
           if (error) {
@@ -136,41 +142,45 @@ angular.module('socially').directive('partiesList', function () {
           }
         });
       };
-
+ 
       this.getUserById = (userId) => {
         return Meteor.users.findOne(userId);
       };
-
+ 
       this.outstandingInvitations = (party) => {
         return _.filter(this.users, (user) => {
           return (_.contains(party.invited, user._id) && !_.findWhere(party.rsvps, {user: user._id}));
         });
       };
-
+ 
       this.openAddNewPartyModal = function () {
         $mdDialog.show({
           template: '<add-new-party-modal></add-new-party-modal>',
           clickOutsideToClose: true
         });
       };
-
+ 
       this.isRSVP = (rsvp, party) => {
         if (Meteor.userId() == null) {
           return false;
         }
-
+ 
         let rsvpIndex = party.myRsvpIndex;
         rsvpIndex = rsvpIndex || _.indexOf(_.pluck(party.rsvps, 'user'), Meteor.userId());
-
+ 
         if (rsvpIndex !== -1) {
           party.myRsvpIndex = rsvpIndex;
           return party.rsvps[rsvpIndex].rsvp === rsvp;
         }
       };
  
-      this.getMainImage = (images) => {
+      this.getMainImage = (images, onlyUrl) => {
         if (images && images.length && images[0] && images[0]) {
           var url = $filter('filter')(this.images, {_id: images[0]})[0].url();
+ 
+          if (onlyUrl) {
+            return url;
+          }
  
           return {
             'background-image': 'url("' + url + '")'

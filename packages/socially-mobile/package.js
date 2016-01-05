@@ -13,11 +13,14 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.2.1');
   api.use('angular');
+  api.use('driftyco:ionic');
 
   api.addFiles([
     'client/lib/module.js',
     'client/auth/login/login.component.js',
-    'client/auth/login/login.html'
+    'client/auth/login/login.html',
+    'client/socially/socially.html',
+    'client/parties/parties-list/parties-list.html'
   ], 'client');
 });
 

@@ -1,7 +1,14 @@
 angular.module('socially').directive('socially', function () {
   return {
     restrict: 'E',
-    templateUrl: 'client/socially/socially.html',
+    templateUrl: () => {
+      if (Meteor.isCordova) {
+        return '/packages/socially-mobile/client/socially/socially.html';
+      }
+      else {
+        return '/packages/socially-browser/client/socially/socially.html';
+      }
+    },
     controllerAs: 'socially',
     controller: function ($scope, $reactive) {
       $reactive(this).attach($scope);
