@@ -2,25 +2,29 @@
 
 import {Component, View, NgZone} from 'angular2/core';
 
-import {NgFor} from 'angular2/common';
- 
+import {Parties} from 'collections/parties';
+
 import {bootstrap} from 'angular2-meteor';
 
-import {Parties} from 'collections/parties';
- 
+import {PartiesForm} from 'client/parties-form/parties-form';
+
 @Component({
-  selector: 'app'
+    selector: 'app'
 })
 @View({
-  templateUrl: 'client/app.html',
-   directives: [NgFor]
+    templateUrl: 'client/app.html',
+    directives: [PartiesForm]
 })
-
 class Socially {
-  parties: Mongo.Cursor<Object>;
-  constructor () {
-    this.parties = Parties.find();
-  }
+    parties: Mongo.Cursor<Object>;
+
+    constructor () {
+        this.parties = Parties.find();
+    }
+
+    removeParty(party) {
+        Parties.remove(party._id);
+    }
 }
- 
+
 bootstrap(Socially);
