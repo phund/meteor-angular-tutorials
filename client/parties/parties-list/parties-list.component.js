@@ -103,7 +103,7 @@ angular.module('socially').directive('partiesList', function () {
         }
       };
 
-      this.getPartyCreator = function(party){
+      this.getPartyCreator = function (party) {
         if (!party) {
           return '';
         }
@@ -143,9 +143,9 @@ angular.module('socially').directive('partiesList', function () {
       };
 
       this.openAddNewPartyModal = function () {
-        $mdDialog.open({
-          animation: true,
-          template: '<add-new-party-modal></add-new-party-modal>'
+        $mdDialog.show({
+          template: '<add-new-party-modal></add-new-party-modal>',
+          clickOutsideToClose: true
         });
       };
 

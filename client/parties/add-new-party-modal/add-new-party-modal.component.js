@@ -23,7 +23,7 @@ angular.module('socially').directive('addNewPartyModal', function () {
 
       this.close = () => {
         $mdDialog.hide();
-      };
+      }
     }
   }
 });

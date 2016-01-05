@@ -5,14 +5,14 @@ angular.module("socially").directive('register', function() {
     controllerAs: 'register',
     controller: function ($scope, $reactive, $state) {
       $reactive(this).attach($scope);
- 
+
       this.credentials = {
         email: '',
         password: ''
       };
- 
+
       this.error = '';
- 
+
       this.register = () => {
         Accounts.createUser(this.credentials, (err) => {
           if (err) {

@@ -5,13 +5,13 @@ angular.module("socially").directive('resetpw', function() {
     controllerAs: 'resetpw',
     controller: function ($scope, $reactive, $state) {
       $reactive(this).attach($scope);
- 
+
       this.credentials = {
         email: ''
       };
- 
+
       this.error = '';
- 
+
       this.reset = () => {
         Accounts.forgotPassword(this.credentials, (err) => {
           if (err) {

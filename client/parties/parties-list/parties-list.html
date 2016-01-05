@@ -29,7 +29,7 @@
                     <small>Posted by {{ partiesList.getPartyCreator(party) | displayName }}</small>
                     <span ng-if="party.public" style="font-size:12px;color:#999;">| Everyone is invited</span>
                   </p>
- 
+
                   <div ng-show="partiesList.isLoggedIn" class="md-actions" layout="row">
                     <md-button ng-click="partiesList.rsvp(party._id, 'yes')">I'm going!</md-button>
                     <md-button ng-click="partiesList.rsvp(party._id, 'maybe')">Maybe</md-button>
@@ -60,7 +60,7 @@
           </md-card>
         </div>
       </md-content>
- 
+
     </div>
     <div flex="50" layout="row" style="min-height:300px;">
       <ui-gmap-google-map options="partiesList.map.options" center="partiesList.map.center" zoom="partiesList.map.zoom" flex layout="row">
