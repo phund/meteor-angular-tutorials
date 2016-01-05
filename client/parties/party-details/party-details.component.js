@@ -6,12 +6,12 @@ angular.module('socially').directive('partyDetails', function () {
     controller: function ($scope, $stateParams, $reactive) {
       $reactive(this).attach($scope);
 
-      this.subscribe('users');
       this.subscribe('parties');
+      this.subscribe('users');
 
       this.helpers({
         party: () => {
-          return Parties.findOne({ _id: $stateParams.partyId });
+          return Parties.findOne({_id: $stateParams.partyId});
         },
         users: () => {
           return Meteor.users.find({});
@@ -34,13 +34,13 @@ angular.module('socially').directive('partyDetails', function () {
           click: (mapModel, eventName, originalEventArgs) => {
             if (!this.party)
               return;
- 
+
             if (!this.party.location)
               this.party.location = {};
- 
+
             this.party.location.latitude = originalEventArgs[0].latLng.lat();
             this.party.location.longitude = originalEventArgs[0].latLng.lng();
- 
+
             //scope apply required because this event handler is outside of the angular domain
             $scope.$apply();
           }
@@ -51,7 +51,7 @@ angular.module('socially').directive('partyDetails', function () {
             dragend: (marker, eventName, args) => {
               if (!this.party.location)
                 this.party.location = {};
- 
+
               this.party.location.latitude = marker.getPosition().lat();
               this.party.location.longitude = marker.getPosition().lng();
             }
@@ -91,7 +91,7 @@ angular.module('socially').directive('partyDetails', function () {
       this.canInvite = () => {
         if (!this.party)
           return false;
- 
+
         return !this.party.public && this.party.owner === Meteor.userId();
       };
     }

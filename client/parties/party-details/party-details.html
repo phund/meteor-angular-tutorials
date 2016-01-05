@@ -22,7 +22,7 @@
         <button ng-click="partyDetails.save()" class="btn btn-primary">Save</button>
       </div>
     </form>
- 
+
     <div class="ma-invite-list" ng-show="partyDetails.canInvite()">
       <h3>
         Users to invite:
@@ -37,11 +37,11 @@
         </li>
       </ul>
     </div>
- 
+
     <h3 class="ma-map-title">
       Click the map to set the party location
     </h3>
- 
+
     <div class="angular-google-map-container">
       <ui-gmap-google-map center="partyDetails.party.location || partyDetails.map.center"
                           events="partyDetails.map.events" zoom="partyDetails.map.zoom">
@@ -51,5 +51,5 @@
       </ui-gmap-google-map>
     </div>
   </div>
- 
+
 </div>

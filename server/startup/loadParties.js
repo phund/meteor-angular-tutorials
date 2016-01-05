@@ -14,7 +14,7 @@ Meteor.startup(function () {
         'description': 'Leisure suit required. And only fiercest manners.'
       }
     ];
- 
+
     for (var i = 0; i < parties.length; i++) {
       Parties.insert(parties[i]);
     }

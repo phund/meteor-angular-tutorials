@@ -1,7 +1,7 @@
 angular.module('socially')
   .config(function ($urlRouterProvider, $stateProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
- 
+
     $stateProvider
       .state('parties', {
         url: '/parties',
@@ -21,7 +21,7 @@ angular.module('socially')
           }
         }
       });
- 
+
     $urlRouterProvider.otherwise("/parties");
   })
   .run(function ($rootScope, $state) {
