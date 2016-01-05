@@ -1,4 +1,4 @@
-angular.module("socially").directive('login', function() {
+angular.module("socially.browser").directive('login', function() {
   return {
     restrict: 'E',
     templateUrl: 'client/auth/login/login.html',

@@ -1,4 +1,4 @@
-angular.module('socially', [
+let modulesToLoad =  [
   'angular-meteor',
   'ui.router',
   'accounts.ui',
@@ -9,7 +9,15 @@ angular.module('socially', [
   'ngImgCrop',
   'xeditable',
   'angular-sortable-view'
-]);
+];
+
+if (Meteor.isCordova) {
+  modulesToLoad = modulesToLoad.concat(['socially.mobile']);
+} else {
+  modulesToLoad = modulesToLoad.concat(['socially.browser']);
+}
+
+angular.module('socially', modulesToLoad);
 
 angular.module('socially').config(($mdIconProvider) => {
   $mdIconProvider
