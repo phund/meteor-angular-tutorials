@@ -16,7 +16,7 @@ import {RouterLink} from 'angular2/router';
     directives: [PartiesForm, RouterLink]
 })
 export class PartiesList {
-    parties: Mongo.Cursor<Object>;
+    parties: Mongo.Cursor;
 
     constructor() {
         this.parties = Parties.find();
