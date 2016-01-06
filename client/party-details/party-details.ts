@@ -3,8 +3,6 @@
 
 import {Component, View} from 'angular2/core';
 
-import {FORM_DIRECTIVES, NgIf} from 'angular2/common';
-
 import {RouteParams} from 'angular2/router';
 
 import {Parties} from 'collections/parties';
@@ -20,7 +18,7 @@ import {MeteorComponent} from 'angular2-meteor';
 })
 @View({
     templateUrl: '/client/party-details/party-details.html',
-    directives: [RouterLink, FORM_DIRECTIVES, NgIf]
+    directives: [RouterLink]
 })
 @RequireUser()
 export class PartyDetails extends MeteorComponent {

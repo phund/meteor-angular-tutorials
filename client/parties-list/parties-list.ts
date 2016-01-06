@@ -41,5 +41,4 @@ export class PartiesList extends MeteorComponent {
             this.parties = Parties.find();
         }
     }
-
 }
