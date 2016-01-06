@@ -3,6 +3,8 @@
 
 import {Component, View} from 'angular2/core';
 
+import {FORM_DIRECTIVES, NgIf} from 'angular2/common';
+
 import {RouteParams} from 'angular2/router';
 
 import {Parties} from 'collections/parties';
@@ -11,20 +13,25 @@ import {RouterLink} from 'angular2/router';
 
 import {RequireUser} from 'meteor-accounts';
 
+import {MeteorComponent} from 'angular2-meteor';
+
 @Component({
     selector: 'party-details'
 })
 @View({
     templateUrl: '/client/party-details/party-details.html',
-    directives: [RouterLink]
+    directives: [RouterLink, FORM_DIRECTIVES, NgIf]
 })
 @RequireUser()
-export class PartyDetails {
+export class PartyDetails extends MeteorComponent {
     party: Party;
 
     constructor(params: RouteParams) {
+        super();
         var partyId = params.get('partyId');
-        this.party = Parties.findOne(partyId);
+        this.subscribe('party', partyId, () => {
+            this.party = Parties.findOne(partyId);
+        }, true);
     }
 
     saveParty(party) {
