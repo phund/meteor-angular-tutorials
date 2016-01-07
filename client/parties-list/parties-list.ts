@@ -22,12 +22,22 @@ import {MeteorComponent} from 'angular2-meteor';
 })
 export class PartiesList extends MeteorComponent {
     parties: Mongo.Cursor<Party>;
+    pageSize: number = 10;
+    curPage: ReactiveVar<number> = new ReactiveVar<number>(1);
+    nameOrder: number = 1;
 
     constructor() {
         super();
-        this.subscribe('parties', () => {
-            this.parties = Parties.find();
-        }, true);
+        this.autorun(() => {
+            let options = {
+                limit: this.pageSize,
+                skip: (this.curPage.get() - 1) * this.pageSize,
+                sort: { name: this.nameOrder }
+            };
+            this.subscribe('parties', options, () => {
+                this.parties = Parties.find({}, { sort: { name: this.nameOrder } });
+            }, true);
+        });
     }
 
     removeParty(party) {
